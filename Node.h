@@ -3,6 +3,7 @@
 
 struct Node {
     int value;
+    int height;
     Node *right;
     Node *left;
 };

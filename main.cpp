@@ -7,27 +7,56 @@ using namespace std;
 // ============================================================================
 #include "BinarySearchTree.h"
 
+void print(BinarySearchTree *);
+
 // ============================================================================
 // Main.
 // ============================================================================
 int main(void) {
     BinarySearchTree *tree = new BinarySearchTree();
 
-    // tree->insert(10);
-    // tree->insert(6);
-    // tree->insert(14);
-    // tree->insert(5);
-    // tree->insert(8);
-    // tree->insert(11);
-    // tree->insert(18);
-
-    tree->insert(1);
-    tree->insert(2);
-    tree->insert(3);
-    tree->insert(4);
-    tree->insert(5);
+    cout << "======== Printing tree ===============" << endl;
+    // Insert into tree
+    tree->insert(10);
     tree->insert(6);
+    tree->insert(14);
+    tree->insert(5);
+    tree->insert(8);
+    tree->insert(11);
+    tree->insert(18);
+    print(tree);
+    cout << "======================================" << endl << endl;
 
+    cout << "======== Removing root (10) ==========" << endl;
+    tree->remove(10);
+    print(tree);
+    cout << "======================================" << endl << endl;
+
+    cout << "======== Removing leaf (8) ===========" << endl;
+    tree->remove(8);
+    print(tree);
+    cout << "======================================" << endl << endl;
+
+    cout << "======== Inserting (23) ==============" << endl;
+    tree->insert(23);
+    print(tree);
+    cout << "======================================" << endl << endl;
+
+    cout << "===== Deleting all minus root ========" << endl;
+    tree->remove(23);
+    tree->remove(5);
+    tree->remove(14);
+    tree->remove(18);
+    tree->remove(6);
+    print(tree);
+    cout << "======================================" << endl << endl;
+
+    delete tree;
+
+    return 0;
+}
+
+void print(BinarySearchTree *tree) {
     cout << "Printing pre-order " << endl;
     tree->preorderPrint();
 
@@ -40,13 +69,5 @@ int main(void) {
     cout << endl << endl << "Printing breadth-first" << endl;
     tree->breadthFirstPrint();
 
-    // Print tree stats
-    string isBalanced;
-    isBalanced = (tree->isBalanced() == true) ? "" : " not";
-    cout << endl << endl << "Tree is" << isBalanced << " balanced." << endl;
-    cout << "Height of the tree is " << tree->height() << endl << endl;
-
-    delete tree;
-
-    return 0;
+    cout << endl << endl << "Height of the tree is: " << tree->getHeight() << endl;
 }
