@@ -1,6 +1,9 @@
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
+#include <cmath>
+using namespace std;
+
 #include "Node.h"
 
 class BinarySearchTree {
@@ -24,6 +27,9 @@ class BinarySearchTree {
         void inorderPrint() { inorderPrint(root); }
         void postorderPrint() { postorderPrint(root); }
         void preorderPrint() { preorderPrint(root); }
+        void breadthFirstPrint() { breadthFirstPrint(root); }
+        int height() { return height(root); }
+        bool isBalanced() { return isBalanced(root); }
 
     private:
         Node *root;
@@ -34,6 +40,10 @@ class BinarySearchTree {
         void inorderPrint(Node *leaf);
         void postorderPrint(Node *leaf);
         void preorderPrint(Node *leaf);
+        void breadthFirstPrint(Node *leaf);
+        int height(Node *leaf);
+        void printLevel(Node *leaf, int level);
+        bool isBalanced(Node *leaf);
 };
 
 
@@ -49,6 +59,24 @@ BinarySearchTree::BinarySearchTree() {
 // ============================================================================
 BinarySearchTree::~BinarySearchTree() {
     destroyTree(root);
+}
+
+// ============================================================================
+// Checks if the tree is balanced.
+// ============================================================================
+bool BinarySearchTree::isBalanced(Node *leaf) {
+    if (leaf == NULL) return true;
+
+    int left = height(leaf->left);
+    int right = height(leaf->right);
+
+    if (abs(left - right) <= 1
+        && isBalanced(leaf->left)
+        && isBalanced(leaf->right)) {
+        return true;
+    }
+
+    return false;
 }
 
 // ============================================================================
@@ -81,6 +109,49 @@ void BinarySearchTree::postorderPrint(Node *leaf) {
         inorderPrint(leaf->left);
         inorderPrint(leaf->right);
         cout << leaf->value << ",";
+    }
+}
+
+// ============================================================================
+// Prints "breadth first" style.
+// ============================================================================
+void BinarySearchTree::breadthFirstPrint(Node *leaf) {
+    int h = height(leaf) + 1;
+    for (int i = 0; i < h; ++i) {
+        printLevel(leaf, i);
+    }
+}
+
+// ============================================================================
+// Prints nodes at a given level.
+// ============================================================================
+void BinarySearchTree::printLevel(Node *leaf, int level) {
+    if (leaf == NULL) {
+        return;
+    }
+
+    if (level == 1) {
+        cout << leaf->value << ",";
+    } else if (level > 1) {
+        printLevel(leaf->left, level - 1);
+        printLevel(leaf->right, level - 1);
+    }
+}
+
+// ============================================================================
+// Returns the height of the tree.
+// ============================================================================
+int BinarySearchTree::height(Node *leaf) {
+    if (leaf == NULL) return 0;
+    else {
+        int lheight = height(leaf->left);
+        int rheight = height(leaf->right);
+
+        if (lheight > rheight) {
+            return lheight + 1;
+        } else {
+            return rheight + 1;
+        }
     }
 }
 
